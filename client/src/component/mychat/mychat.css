@@ -23,7 +23,7 @@
 }
 
 .message-container {
-  max-width: 50%;
+  max-width: 40%;
   margin-bottom: 5px;
 }
 
@@ -94,6 +94,8 @@
   background: #293c45;
   padding: 8px 10px;
   border-radius: 12px;
+  display: flex;
+  padding-right: 18px;
 }
 .chat-footer input {
   width:100%;
@@ -105,6 +107,18 @@
 
   padding:0px 10px;
   color:#ffff;
+}
+
+.emoji {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color:#fff;
+}
+.emoji_picker {
+  position: absolute;
+  bottom: 82px;
+  right: 58px;
 }
 .message-content-sender {
   font-size: 10px;

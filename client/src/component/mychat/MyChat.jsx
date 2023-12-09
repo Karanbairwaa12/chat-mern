@@ -5,6 +5,9 @@ import axios from "axios";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import BinaryImage from "../BinaryImage";
+import data from "@emoji-mart/data";
+import Picker from "@emoji-mart/react";
+import { BsEmojiSmile } from "react-icons/bs";
 
 const MyChat = ({
   userData,
@@ -22,6 +25,7 @@ const MyChat = ({
 
   const [isRemoveMessage, setIsRemovemessage] = useState(false);
   const [index, setIndex] = useState(0);
+  const [showEmoji, setShowEmoji] = useState(false);
   // const [socketConnected, setSocketConnected] = useState(false)
 
   let selectedChatCompare;
@@ -112,6 +116,14 @@ const MyChat = ({
         };
       });
     } catch (err) {}
+  };
+  const addEmoji = (e) => {
+    const sym = e.unified.split("_");
+    const codeArray = [];
+    sym.forEach((el) => codeArray.push("0x" + el));
+    let emoji = String.fromCodePoint(...codeArray);
+    console.log(emoji);
+    setInputMsg(inputMsg + emoji);
   };
 
   useEffect(() => {
@@ -252,21 +264,39 @@ const MyChat = ({
         </div>
         <div className="chat-footer">
           {myUser.length !== 0 && (
-            <div className="chat-footer-container">
-              <input
-                type="text"
-                placeholder="Hey..."
-                value={inputMsg}
-                onChange={(event) => {
-                  handleSubmit(event);
-                }}
-                onKeyPress={(event) => {
-                  if (event.key === "Enter" || event.keyCode === 13) {
-                    sendMessage();
-                  }
-                }}
-              />
-            </div>
+            <>
+              <div className="chat-footer-container">
+                <input
+                  type="text"
+                  placeholder="Hey..."
+                  value={inputMsg}
+                  onChange={(event) => {
+                    handleSubmit(event);
+                  }}
+                  onKeyPress={(event) => {
+                    if (event.key === "Enter" || event.keyCode === 13) {
+                      setShowEmoji(false)
+                      sendMessage();
+                    }
+                  }}
+                />
+                <span className="emoji" onClick={() => setShowEmoji(!showEmoji)}>
+                  <BsEmojiSmile />
+                </span>
+              </div>
+
+              {showEmoji && (
+                <div className="emoji_picker">
+                  <Picker
+                    data={data}
+                    emojiSize={20}
+                    emojiButtonSize={28}
+                    onEmojiSelect={addEmoji}
+                    maxFrequentRows={0}
+                  />
+                </div>
+              )}
+            </>
           )}
         </div>
       </div>
